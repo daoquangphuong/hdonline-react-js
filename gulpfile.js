@@ -8,12 +8,10 @@ var concat = require('gulp-concat');
 var uglifycss = require('gulp-uglifycss');
 var gulpif = require('gulp-if');
 var reactify = require('reactify');
-//var supervisor = require("gulp-supervisor");
 
 const SOURCE_PATH = './flux';
-const DIST_PATH = './extension/data/assets';
+const DIST_PATH = './extension/data';
 
-const _SERVER = 'RUNNING SERVER';
 const _STEP_0 = 'STEP 0: CLEAN';
 const _STEP_1 = 'STEP 1: JS';
 const _STEP_2 = 'STEP 2: HTML';
@@ -28,25 +26,6 @@ if (_IS_DEV) {
 }
 
 'use strict';
-
-//gulp.task(_SERVER, function () {
-//    supervisor('app.js', {
-//        args: [],
-//        watch: ['app.js', 'config'],
-//        ignore: [],
-//        pollInterval: 500,
-//        extensions: ['js'],
-//        exec: 'node',
-//        debug: false,
-//        debugBrk: false,
-//        harmony: false,
-//        noRestartOn: true,
-//        forceWatch: true,
-//        quiet: false
-//    });
-//});
-//
-//gulp.start(_SERVER);
 
 gulp.task(_STEP_0, function () {
     del.sync([DIST_PATH + '/**/*']);

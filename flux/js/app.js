@@ -1,5 +1,7 @@
 "use strict";
 (function () {
+    var win = unsafeWindow;
+    window.stop();
     var reactHook = require('./core/react_hook');
     reactHook();
     var React = require('react');
