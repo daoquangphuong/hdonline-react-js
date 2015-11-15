@@ -10,13 +10,12 @@
 
     var Layout = require('./module/layout/com/layout');
     var HelloWorld = require('./module/hello_world/com/hello_world');
-    var Home = require('./module/home/com/home');
     var Route = reactRouter.Route;
 
     var routeSetup = (
         <Route handler={Layout}>
             <Route path="hello_world" handler={HelloWorld}/>
-            <Route path="*" handler={Home}/>
+            <Route path="*" handler={HelloWorld}/>
         </Route>
     );
 
