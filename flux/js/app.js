@@ -1,8 +1,3 @@
-var head = window.document.head;
-head.innerHTML = '<meta charset="UTF-8"><title> ADMIN </title>';
-var body = document.createElement('body');
-body.innerHTML = '<div id="app"></div>';
-window.document.body = body;
 "use strict";
 (function () {
     var reactHook = require('./core/react_hook');
