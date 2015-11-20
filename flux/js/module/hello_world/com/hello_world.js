@@ -1,11 +1,10 @@
 "use strict";
 (function () {
     var React = require('react');
-
+    var reactRouter = require('react-router');
     // store
     var store = require('../store');
     // component
-
     var MessageBox = require('./message_box');
 
     module.exports = React.createClass({
@@ -22,6 +21,18 @@
             store.off('update', self.onUpdate);
         },
         say: function () {
+            unsafeWindow.console.log('dang lay du lieu');
+            var $ = require('jquery');
+            $.get('http://hdonline.vn')
+                .done(function (res) {
+                    console.log(res);
+                })
+                .fail(function (err) {
+                    console.log(arguments);
+                })
+                .always(function () {
+                    console.log('done');
+                });
             store.trigger('say', 'Hello World !');
         },
         render: function () {

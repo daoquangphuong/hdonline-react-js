@@ -19,7 +19,7 @@
         </Route>
     );
 
-    reactRouter.run(routeSetup, reactRouter.HashLocation, function (Root) {
+    reactRouter.run(routeSetup, reactRouter.HistoryLocation, function (Root) {
         ReactDOM.render(<Root/>, document.getElementById('app'));
     });
 

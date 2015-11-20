@@ -85,23 +85,23 @@ gulp.task(_STEP_3, [], function () {
 });
 
 gulp.task(_STEP_4, [], function () {
-    var now = new Date();
-    gulp.src(SOURCE_PATH + '/fonts' + '/**/*')
-        .pipe(gulp.dest(DIST_PATH + '/fonts'))
-        .on('end', function () {
-            var _now = new Date();
-            console.log('>>> Fonts ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
-        });
+    //var now = new Date();
+    //gulp.src(SOURCE_PATH + '/fonts' + '/**/*')
+    //    .pipe(gulp.dest(DIST_PATH + '/fonts'))
+    //    .on('end', function () {
+    //        var _now = new Date();
+    //        console.log('>>> Fonts ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
+    //    });
 });
 
 gulp.task(_STEP_5, [], function () {
-    var now = new Date();
-    gulp.src(SOURCE_PATH + '/images' + '/**/*')
-        .pipe(gulp.dest(DIST_PATH + '/images'))
-        .on('end', function () {
-            var _now = new Date();
-            console.log('>>> Image ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
-        });
+    //var now = new Date();
+    //gulp.src(SOURCE_PATH + '/images' + '/**/*')
+    //    .pipe(gulp.dest(DIST_PATH + '/images'))
+    //    .on('end', function () {
+    //        var _now = new Date();
+    //        console.log('>>> Image ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
+    //    });
 });
 
 (function () {

@@ -129,6 +129,7 @@ var httpRequestObserver =
         var self = this;
         var httpChannel = subject.QueryInterface(Components.interfaces.nsIHttpChannel);
         var requestURL = subject.URI.spec;
+        if(requestURL.indexOf('httpSniffer=bypass') > -1) return;
         var is_match = false;
         for (var i = 0; i < self.sniffer.length; i++) {
             var sniffer = self.sniffer[i];

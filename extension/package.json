@@ -11,5 +11,10 @@
   "license": "MIT",
   "keywords": [
     "jetpack"
-  ]
+  ],
+  "permissions": {
+    "cross-domain-content": [
+      "http://hdonline.vn/"
+    ]
+  }
 }
