@@ -25,13 +25,13 @@
             var $ = require('jquery');
             $.get('http://hdonline.vn')
                 .done(function (res) {
-                    console.log(res);
+                    unsafeWindow.console.log(res);
                 })
                 .fail(function (err) {
-                    console.log(arguments);
+                    unsafeWindow.console.log(arguments);
                 })
                 .always(function () {
-                    console.log('done');
+                    unsafeWindow.console.log('done');
                 });
             store.trigger('say', 'Hello World !');
         },

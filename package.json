@@ -17,6 +17,7 @@
     "express-cluster": "0.0.3",
     "joi": "^6.6.1",
     "joi-validation-strategy": "0.0.2",
+    "jpm": "^1.0.3",
     "morgan": "^1.6.1",
     "react-validation-mixin": "^5.0.6",
     "serve-favicon": "^2.3.0",
