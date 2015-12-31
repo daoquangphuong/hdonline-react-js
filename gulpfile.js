@@ -1,13 +1,14 @@
 var gulp = require('gulp');
 var del = require('del');
-var browserify = require('gulp-browatchify');
+
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var uglifycss = require('gulp-uglifycss');
 var gulpif = require('gulp-if');
-var reactify = require('reactify');
+var watchify = require('watchify');
+var browserify = require('browserify');
 
 const SOURCE_PATH = 'flux';
 const EXTENSION_PATH = 'extension';
@@ -27,39 +28,60 @@ if (_IS_DEV) {
 
 'use strict';
 
-var HTML_DONE = false;
-var CSS_DONE = false;
-var JS_DONE = false;
-
 gulp.task(_STEP_0, function () {
     del.sync([DIST_PATH + '/**/*']);
 });
-
+// COMPILE JAVASCRIPT
+var JS_DONE = false;
+var domain = {};
+var bundler = watchify(
+    browserify()
+        .add(SOURCE_PATH + '/js/global.js', {debug: true})
+        .add(SOURCE_PATH + '/js/app.js', {debug: true})
+        .transform("babelify", {presets: ["es2015", "react"], global: true, ignore: /\/node_modules\//})
+);
 gulp.task(_STEP_1, [], function () {
     var now = new Date();
-    gulp.src(SOURCE_PATH + '/js/app.js')
-        .pipe(browserify({transforms: [reactify], standalone: ''})
-            .on('error', function (err) {
-                console.log(err);
-            }))
-        .pipe(source('app.js'))
-        .pipe(buffer())
-        .pipe(gulpif(!_IS_DEV, uglify()
-            .on('error', function (err) {
-                console.log(err);
-            })
-        ))
-        .pipe(gulp.dest(DIST_PATH + '/js'))
-        .on('error', function (err) {
-            console.log(err);
-        })
-        .on('end', function () {
-            JS_DONE = true;
-            var _now = new Date();
-            console.log('>>> JS ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
-        });
-});
 
+    function rebundle() {
+        if (domain[_STEP_1]) {
+            domain[_STEP_1].dispose();
+        }
+        domain[_STEP_1] = require('domain').create();
+        domain[_STEP_1].run(function () {
+            bundler.bundle()
+                .on('error', function (err) {
+                    console.error(err);
+                    this.emit('end');
+                })
+                .pipe(source('app.js'))
+                .pipe(buffer())
+                .pipe(gulpif(!_IS_DEV, uglify()
+                    .on('error', function (err) {
+                        console.log(err);
+                    })
+                ))
+                .pipe(gulp.dest(DIST_PATH + '/js'))
+                .on('error', function (err) {
+                    console.log(err);
+                })
+                .on('end', function () {
+                    JS_DONE = true;
+                    var _now = new Date();
+                    console.log('>>> JS ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
+                });
+        });
+
+    }
+
+    bundler.on('update', function () {
+        rebundle();
+    });
+
+    return rebundle();
+});
+// COMPILE HTML
+var HTML_DONE = false;
 gulp.task(_STEP_2, [], function () {
     var now = new Date();
     gulp.src(SOURCE_PATH + '/*.html')
@@ -70,7 +92,8 @@ gulp.task(_STEP_2, [], function () {
             console.log('>>> Html ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
         });
 });
-
+// COMPILE CSS
+var CSS_DONE = false;
 gulp.task(_STEP_3, [], function () {
     var now = new Date();
     gulp.src(
@@ -90,9 +113,13 @@ gulp.task(_STEP_3, [], function () {
             console.log('>>> Css ok !' + '(' + (_now.getTime() - now.getTime()) + ' ms)');
         });
 });
-
+// COMPiLE XPI
+var jpmProcess = false;
 gulp.task(_STEP_4, [], function () {
-    require('child_process').fork('./jpm.js');
+    if (jpmProcess) {
+        jpmProcess.kill();
+    }
+    jpmProcess = require('child_process').fork('./jpm.js');
 });
 
 (function () {
@@ -128,7 +155,7 @@ gulp.task(_STEP_4, [], function () {
 (function () {
     var loop = function () {
         setTimeout(function () {
-            if(JS_DONE && CSS_DONE && HTML_DONE){
+            if (JS_DONE && CSS_DONE && HTML_DONE) {
                 gulp.start(_STEP_4);
                 var watch = gulp.watch([
                     EXTENSION_PATH + '/data/**/*.*',
@@ -145,7 +172,7 @@ gulp.task(_STEP_4, [], function () {
                 return;
             }
             loop();
-        },100)
+        }, 100)
     };
     loop();
 }).call(null);

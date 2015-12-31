@@ -21,17 +21,17 @@
             store.off('update', self.onUpdate);
         },
         say: function () {
-            unsafeWindow.console.log('dang lay du lieu');
+            console.log('dang lay du lieu');
             var $ = require('jquery');
             $.get('http://hdonline.vn')
                 .done(function (res) {
-                    unsafeWindow.console.log(res);
+                    console.log(res);
                 })
                 .fail(function (err) {
-                    unsafeWindow.console.log(arguments);
+                    console.log(arguments);
                 })
                 .always(function () {
-                    unsafeWindow.console.log('done');
+                    console.log('done');
                 });
             store.trigger('say', 'Hello World !');
         },
