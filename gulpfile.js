@@ -35,10 +35,10 @@ gulp.task(_STEP_0, function () {
 var JS_DONE = false;
 var domain = {};
 var bundler = watchify(
-    browserify()
+    browserify({cache: {}, packageCache: {}})
         .add(SOURCE_PATH + '/js/global.js', {debug: true})
         .add(SOURCE_PATH + '/js/app.js', {debug: true})
-        .transform("babelify", {presets: ["es2015", "react"], global: true, ignore: /\/node_modules\//})
+        .transform("babelify", {presets: ["es2015", "react"], ignore: /\/node_modules\//})
 );
 gulp.task(_STEP_1, [], function () {
     var now = new Date();
