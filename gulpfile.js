@@ -39,7 +39,7 @@ var bundler = watchify(
         .add(SOURCE_PATH + '/js/global.js', {debug: true})
         .add(SOURCE_PATH + '/js/app.js', {debug: true})
         .transform("babelify", {presets: ["es2015", "react"], ignore: /\/node_modules\//})
-    , {poll: true});
+    , {poll: 500});
 gulp.task(_STEP_1, [], function () {
     var now = new Date();
 
