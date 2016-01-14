@@ -39,7 +39,7 @@ var bundler = watchify(
         .add(SOURCE_PATH + '/js/global.js', {debug: true})
         .add(SOURCE_PATH + '/js/app.js', {debug: true})
         .transform("babelify", {presets: ["es2015", "react"], ignore: /\/node_modules\//})
-    , {poll: 500});
+    , {deley: 1, poll: 250, ignoreWatch: true});
 gulp.task(_STEP_1, [], function () {
     var now = new Date();
 
@@ -78,7 +78,9 @@ gulp.task(_STEP_1, [], function () {
         rebundle();
     });
 
-    return rebundle();
+    setTimeout(function () {
+        return rebundle();
+    },500);
 });
 // COMPILE HTML
 var HTML_DONE = false;
